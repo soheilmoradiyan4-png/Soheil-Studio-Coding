@@ -1,0 +1,36 @@
+<!-- services.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>خدمات - Soheil Studio Coding</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>SSC - خدمات</h1>
+            <a href="index.html">بازگشت به خانه</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>ارسال درخواست خدمات</h2>
+        <!-- فرم درخواست -->
+        <form id="serviceForm" action="/submit-service" method="POST">
+            <input type="text" name="name" id="name" placeholder="نام و نام خانوادگی" required>
+            <input type="tel" name="phone" id="phone" placeholder="شماره تلفن همراه" required>
+            <input type="email" name="email" id="email" placeholder="ایمیل یا جیمیل" required>
+            <input type="number" name="budget" id="budget" placeholder="بودجه (تومان)" required>
+            <textarea name="message" id="message" placeholder="متن درخواست..." required></textarea>
+            <button type="submit">ارسال درخواست</button>
+        </form>
+        <!-- پیامی که بعد از ارسال نمایش داده می‌شود -->
+        <p id="successMessage" style="display:none; color: #2ecc71; margin-top: 20px;">
+            در اسرع وقت درخواست بررسی و با شما تماس گرفته می‌شود.
+        </p>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

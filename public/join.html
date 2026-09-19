@@ -1,0 +1,31 @@
+<!-- join.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>استخدام - SSC</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>درخواست همکاری</h1>
+            <a href="about.html">بازگشت</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <form id="joinForm" action="/submit-service" method="POST">
+            <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+            <input type="number" name="age" placeholder="سن" required>
+            <input type="tel" name="phone" placeholder="شماره تلفن" required>
+            <input type="email" name="email" placeholder="ایمیل" required>
+            <input type="text" name="budget" placeholder="مهارت‌ها (مثلاً پایتون، نود.جی‌اس)" required>
+            <textarea name="message" placeholder="توضیحات درباره خودتان..." required></textarea>
+            <button type="submit">ارسال درخواست همکاری</button>
+        </form>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

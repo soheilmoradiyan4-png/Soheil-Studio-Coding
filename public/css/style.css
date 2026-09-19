@@ -1,0 +1,77 @@
+/* css/style.css */
+
+/* تعریف رنگ‌های تم تیره */
+:root {
+    --bg-color: #0a0a0c;      /* پس‌زمینه خیلی تیره */
+    --text-color: #e0e0e0;    /* متن روشن برای خوانایی */
+    --accent-color: #3498db;  /* رنگ آبی برای دکمه‌ها و لینک‌ها */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Tahoma', sans-serif; /* در آینده فونت بهتری اضافه می‌کنیم */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #16161a;
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+/* css/style.css */
+
+/* استایل فرم برای ظاهر مدرن و تیره */
+.container { padding: 40px; max-width: 600px; margin: auto; }
+
+#serviceForm { display: flex; flex-direction: column; gap: 15px; }
+
+input, textarea {
+    padding: 12px;
+    background-color: #1a1a1f;
+    border: 1px solid #333;
+    color: white;
+    border-radius: 5px;
+}
+
+button {
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover { background-color: #2980b9; }
+/* css/style.css - اضافه کردن به فایل قبلی */
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e67e22; /* رنگ متفاوت برای تاکید */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.button-link:hover { background-color: #d35400; }
+/* css/style.css */
+.center-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
