@@ -1,52 +1,71 @@
-// server.js
-const PORT = process.env.PORT || 3000;
-const path = require('path');
-
-// فایل‌های CSS و JS و HTML در پوشه‌ای به نام public باشند
-app.use(express.static(path.join(__dirname, 'public')));
-
+// ۱. ابتدا تمام کتابخانه‌ها را در بالاترین قسمت وارد می‌کنیم
 const express = require('express');
+const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-require('dotenv').config(); // برای خواندن اطلاعات مخفی از فایل .env
+require('dotenv').config(); // برای خواندن توکن‌ها از فایل .env
 
+// ۲. مقداردهی اولیه اصلی
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // فایل‌های استاتیک مثل CSS و JS را از پوشه public می‌خواند
+const PORT = process.env.PORT || 3000;
 
-// مسیر آدرس ربات بله
+// آدرس ربات بله (استفاده از متغیر محیطی برای امنیت)
 const BALE_BOT_URL = `https://tapi.bale.ai/bot${process.env.BOT_TOKEN}/sendMessage`;
 
-// دریافت درخواست خدمات از فرم سایت
-// نسخه اصلاح شده برای عیب‌یابی (Debug Version)
+// ۳. تنظیمات میان‌افزارها (Middlewares)
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
+// بسیار مهم: تنظیم پوشه فایل‌های استاتیک (CSS, JS, HTML)
+// این خط باعث می‌شود فایل‌های داخل پوشه public در دسترس باشند
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ۴. مسیر اصلی (Route) برای باز کردن صفحه سایت
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// ۵. مسیر دریافت فرم درخواست خدمات
 app.post('/submit-service', async (req, res) => {
-    console.log("!!! سرور درخواست را دریافت کرد !!!"); // این خط باید حتماً در پاورشل چاپ شود
+    console.log("!!! یک درخواست جدید دریافت شد !!!");
     
     const { name, phone, email, budget, message } = req.body;
-    const text = `📬 درخواست جدید:\nنام: ${name}\nتلفن: ${phone}\nایمیل: ${email}\nبودجه: ${budget}\nپیام: ${message}`;
+    
+    // ساخت متن پیام برای ارسال به تلگرام/بله
+    const text = `📬 *درخواست جدید از سایت SSC*:\n\n` +
+                 `👤 نام: ${name}\n` +
+                 `📞 تلفن: ${phone}\n` +
+                 `📧 ایمیل: ${email}\n` +
+                 `💰 بودجه: ${budget}\n` +
+                 `💬 پیام: ${message}`;
 
     try {
-        console.log("در حال ارسال به بله...");
+        console.log("در حال ارسال پیام به ربات بله...");
+        
+        // ارسال درخواست به API بله
         const response = await axios.post(BALE_BOT_URL, { 
             chat_id: process.env.ADMIN_CHAT_ID, 
             text: text 
         });
-        console.log("نتیجه از سمت بله:", response.data);
-        res.send("درخواست شما با موفقیت ثبت شد!");
+
+        console.log("✅ پیام با موفقیت ارسال شد:", response.data);
+        res.send("<h1>با موفقیت ثبت شد!</h1><p>در اسرع وقت با شما تماس خواهیم گرفت.</p>");
+        
     } catch (error) {
-        console.log("خطای اصلی اینجاست:");
-        console.log(error.response ? error.response.data : error.message);
-        res.status(500).send("خطا در ارسال به ربات");
+        // اگر خطایی رخ داد (مثلاً توکن اشتباه بود یا اینترنت قطع بود)
+        console.error("❌ خطا در ارسال پیام:");
+        if (error.response) {
+            console.error("جزئیات خطا از سمت بله:", error.response.data);
+        } else {
+            console.error("خطای شبکه یا سیستم:", error.message);
+        }
+        res.status(500).send("متاسفانه خطایی در ثبت درخواست رخ داد. لطفا دوباره تلاش کنید.");
     }
 });
 
-
-// اجرای سرور روی پورت 3000
-// سرور را روی پورتی که Render می‌دهد اجرا کن، اگر نبود روی ۳۰۰۰
-
-
+// ۶. اجرای سرور
 app.listen(PORT, () => {
-    console.log(`سرور روی پورت ${PORT} در حال اجراست`);
+    console.log(`=========================================`);
+    console.log(`🚀 سرور با موفقیت روی پورت ${PORT} روشن شد`);
+    console.log(`=========================================`);
 });
-
